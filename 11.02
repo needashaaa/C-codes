@@ -1,0 +1,34 @@
+using System;
+using System.IO;
+
+class FileOperations
+{
+    public static void CopyFile(string sourceFileName, string destinationFileName)
+    {
+        try
+        {
+            File.Copy(sourceFileName, destinationFileName, overwrite: true);
+            Console.WriteLine($"Файл '{sourceFileName}' успешно скопирован в '{destinationFileName}'.");
+        }
+        catch (IOException ex)
+        {
+            Console.WriteLine($"Ошибка при копировании файла: {ex.Message}");
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            Console.WriteLine($"Ошибка доступа: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Произошла ошибка: {ex.Message}");
+        }
+    }
+
+    static void Main()
+    {
+        string sourceFile = "source.txt";
+        string destinationFile = "destination.txt";
+
+        CopyFile(sourceFile, destinationFile);
+    }
+}
