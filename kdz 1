@@ -1,0 +1,107 @@
+using System;
+using System.Linq;
+
+class BullsAndCows
+{
+    static void Main()
+    {
+        Console.WriteLine("Выберите режим игры:");
+        Console.WriteLine("1. Игрок против Игрока");
+        Console.WriteLine("2. Игрок против Компьютера");
+
+        int choice = int.Parse(Console.ReadLine());
+
+        if (choice == 1)
+        {
+            PlayerVsPlayer();
+        }
+        else if (choice == 2)
+        {
+            PlayerVsComputer();
+        }
+        else
+        {
+            Console.WriteLine("Неверный выбор. Попробуйте снова.");
+        }
+    }
+
+    static void PlayerVsPlayer()
+    {
+        Console.WriteLine("Игрок 1, загадайте четырехзначное число с уникальными цифрами:");
+        string number1 = GetValidNumber();
+
+        Console.Clear();
+        Console.WriteLine("Игрок 2, загадайте четырехзначное число с уникальными цифрами:");
+        string number2 = GetValidNumber();
+
+        Console.Clear();
+        PlayGame(number1, "Игрок 2");
+        PlayGame(number2, "Игрок 1");
+    }
+
+    static void PlayerVsComputer()
+    {
+        string number = GenerateNumber();
+        Console.WriteLine("Компьютер загадал число.");
+        PlayGame(number, "Игрок");
+    }
+
+    static string GenerateNumber()
+    {
+        Random rand = new Random();
+        string result;
+        do
+        {
+            result = rand.Next(1000, 10000).ToString();
+        } while (result.Distinct().Count() != 4);
+
+        return result;
+    }
+
+    static string GetValidNumber()
+    {
+        string input;
+        do
+        {
+            input = Console.ReadLine();
+            if (input.Length != 4 || input.Distinct().Count() != 4)
+            {
+                Console.WriteLine("Число должно быть четырехзначным и иметь уникальные цифры. Попробуйте снова:");
+            }
+        } while (input.Length != 4 || input.Distinct().Count() != 4);
+
+        return input;
+    }
+
+    static void PlayGame(string secretNumber, string player)
+    {
+        int attempts = 0;
+        while (true)
+        {
+            Console.WriteLine($"{player}, введите ваш ответ:");
+            string guess = GetValidNumber();
+            attempts++;
+
+            if (guess == secretNumber)
+            {
+                Console.WriteLine($"Поздравляем, {player}! Вы угадали число за {attempts} попыток.");
+                break;
+            }
+
+            int bulls = 0, cows = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                if (guess[i] == secretNumber[i])
+                {
+                    bulls++;
+                }
+                else if (secretNumber.Contains(guess[i]))
+                {
+                    cows++;
+                }
+            }
+
+            Console.WriteLine($"{bulls} Быков, {cows} Коров");
+        }
+    }
+}
