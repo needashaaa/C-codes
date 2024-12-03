@@ -1,0 +1,63 @@
+using NUnit.Framework;
+
+[TestFixture]
+public class BinaryAdditionTests
+{
+    [Test]
+    public void ToTwosComplementBinary_CorrectForPositiveNumbers()
+    {
+        Assert.AreEqual("00000011", BinaryAddition.ToTwosComplementBinary(3));
+        Assert.AreEqual("00000001", BinaryAddition.ToTwosComplementBinary(1));
+    }
+
+    [Test]
+    public void ToTwosComplementBinary_CorrectForNegativeNumbers()
+    {
+        Assert.AreEqual("11111101", BinaryAddition.ToTwosComplementBinary(-3));
+        Assert.AreEqual("11111111", BinaryAddition.ToTwosComplementBinary(-1));
+    }
+
+    [Test]
+    public void AddBinary_CorrectSumWithoutCarry()
+    {
+        Assert.AreEqual("00000100", BinaryAddition.AddBinary("00000010", "00000010")); // 2 + 2 = 4
+    }
+
+    [Test]
+    public void AddBinary_CorrectSumWithCarry()
+    {
+        Assert.AreEqual("00000101", BinaryAddition.AddBinary("00000010", "00000011")); // 2 + 3 = 5
+    }
+
+    [Test]
+    public void BinaryToDecimal_CorrectForPositiveNumbers()
+    {
+        Assert.AreEqual(3, BinaryAddition.BinaryToDecimal("00000011"));
+        Assert.AreEqual(5, BinaryAddition.BinaryToDecimal("00000101"));
+    }
+
+    [Test]
+    public void BinaryToDecimal_CorrectForNegativeNumbers()
+    {
+        Assert.AreEqual(-3, BinaryAddition.BinaryToDecimal("11111101"));
+        Assert.AreEqual(-1, BinaryAddition.BinaryToDecimal("11111111"));
+    }
+
+    [Test]
+    public void FullFlowTest()
+    {
+        int number1 = 3;
+        int number2 = -5;
+
+        string binary1 = BinaryAddition.ToTwosComplementBinary(number1);
+        string binary2 = BinaryAddition.ToTwosComplementBinary(number2);
+
+        string sumBinary = BinaryAddition.AddBinary(binary1, binary2);
+        int sumDecimal = BinaryAddition.BinaryToDecimal(sumBinary);
+
+        Assert.AreEqual("00000011", binary1, "Binary representation of 3 is incorrect");
+        Assert.AreEqual("11111011", binary2, "Binary representation of -5 is incorrect");
+        Assert.AreEqual("11111110", sumBinary, "Binary sum is incorrect");
+        Assert.AreEqual(-2, sumDecimal, "Decimal sum is incorrect");
+    }
+}
