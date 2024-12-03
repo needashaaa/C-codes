@@ -1,0 +1,31 @@
+using NUnit.Framework;
+
+[TestFixture]
+public class DivisionCalculatorTests
+{
+    [Test]
+    public void Divide_ValidInput_ReturnsCorrectQuotientAndRemainder()
+    {
+        int N = 10;
+        int K = 3;
+
+        int expectedQuotient = 3;
+        int expectedRemainder = 1;
+        string expectedSteps = "Vivod 7\nVivod 4\nVivod 1\n";
+
+        var result = DivisionCalculator.Divide(N, K);
+
+        Assert.AreEqual(expectedQuotient, result.quotient, "Incorrect quotient.");
+        Assert.AreEqual(expectedRemainder, result.remainder, "Incorrect remainder.");
+        Assert.AreEqual(expectedSteps, result.steps, "Incorrect steps output.");
+    }
+
+    [Test]
+    public void Divide_WhenKIsZero_ThrowsArgumentException()
+    {
+        int N = 10;
+        int K = 0;
+
+        Assert.Throws<ArgumentException>(() => DivisionCalculator.Divide(N, K), "Expected an exception for K=0.");
+    }
+}
