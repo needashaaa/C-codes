@@ -1,0 +1,118 @@
+using NUnit.Framework;
+
+[TestFixture]
+public class RegexCheckerTests
+{
+    [Test]
+    public void TestContainsThreeZeros()
+    {
+        Assert.IsTrue(RegexChecker.ContainsThreeZeros("1000"));
+        Assert.IsFalse(RegexChecker.ContainsThreeZeros("100"));
+    }
+
+    [Test]
+    public void TestContains101()
+    {
+        Assert.IsTrue(RegexChecker.Contains101("1101"));
+        Assert.IsFalse(RegexChecker.Contains101("1100"));
+    }
+
+    [Test]
+    public void TestStartsOrEndsWith101()
+    {
+        Assert.IsTrue(RegexChecker.StartsOrEndsWith101("101abc"));
+        Assert.IsTrue(RegexChecker.StartsOrEndsWith101("abc101"));
+        Assert.IsFalse(RegexChecker.StartsOrEndsWith101("abc101def"));
+    }
+
+    [Test]
+    public void TestDigitsContaining1()
+    {
+        Assert.IsTrue(RegexChecker.DigitsContaining1("123"));
+        Assert.IsFalse(RegexChecker.DigitsContaining1("234"));
+    }
+
+    [Test]
+    public void TestDigitsNotContaining1()
+    {
+        Assert.IsTrue(RegexChecker.DigitsNotContaining1("234"));
+        Assert.IsFalse(RegexChecker.DigitsNotContaining1("1234"));
+    }
+
+    [Test]
+    public void TestFirstDigitRepeats()
+    {
+        Assert.IsTrue(RegexChecker.FirstDigitRepeats("121"));
+        Assert.IsFalse(RegexChecker.FirstDigitRepeats("123"));
+    }
+
+    [Test]
+    public void TestFirstDigitDoesNotRepeat()
+    {
+        Assert.IsTrue(RegexChecker.FirstDigitDoesNotRepeat("123"));
+        Assert.IsFalse(RegexChecker.FirstDigitDoesNotRepeat("121"));
+    }
+    
+{
+    [Test]
+    public void TestIsSignedDecimalInteger()
+    {
+        Assert.IsTrue(RegexChecker.IsSignedDecimalInteger("+123"));
+        Assert.IsTrue(RegexChecker.IsSignedDecimalInteger("-123"));
+        Assert.IsFalse(RegexChecker.IsSignedDecimalInteger("0123"));
+    }
+
+    [Test]
+    public void TestIsSignedOctalInteger()
+    {
+        Assert.IsTrue(RegexChecker.IsSignedOctalInteger("+0123"));
+        Assert.IsTrue(RegexChecker.IsSignedOctalInteger("-0123"));
+        Assert.IsFalse(RegexChecker.IsSignedOctalInteger("123"));
+    }
+
+    [Test]
+    public void TestIsSignedHexadecimalInteger()
+    {
+        Assert.IsTrue(RegexChecker.IsSignedHexadecimalInteger("+0x1A3"));
+        Assert.IsTrue(RegexChecker.IsSignedHexadecimalInteger("-0x1A3"));
+        Assert.IsFalse(RegexChecker.IsSignedHexadecimalInteger("0x1G3"));
+    }
+
+    [Test]
+    public void TestIsSignedAnyInteger()
+    {
+        Assert.IsTrue(RegexChecker.IsSignedAnyInteger("+123"));
+        Assert.IsTrue(RegexChecker.IsSignedAnyInteger("-0123"));
+        Assert.IsTrue(RegexChecker.IsSignedAnyInteger("+0x1A3"));
+    }
+
+    [Test]
+    public void TestIsSignedDecimalReal()
+    {
+        Assert.IsTrue(RegexChecker.IsSignedDecimalReal("+123.45"));
+        Assert.IsFalse(RegexChecker.IsSignedDecimalReal("123."));
+        Assert.IsFalse(RegexChecker.IsSignedDecimalReal(".45"));
+    }
+
+    [Test]
+    public void TestContainsTwoZerosWithMultipleOfFourInBetween()
+    {
+        Assert.IsTrue(RegexChecker.ContainsTwoZerosWithMultipleOfFourInBetween("0abcd0"));
+        Assert.IsFalse(RegexChecker.ContainsTwoZerosWithMultipleOfFourInBetween("0abc0"));
+    }
+
+    [Test]
+    public void TestEverySubwordOfFiveContainsAtLeastTwoZeros()
+    {
+        Assert.IsTrue(RegexChecker.EverySubwordOfFiveContainsAtLeastTwoZeros("00000"));
+        Assert.IsFalse(RegexChecker.EverySubwordOfFiveContainsAtLeastTwoZeros("00001"));
+    }
+
+    [Test]
+    public void TestIsNumberDivisibleByThree()
+    {
+        Assert.IsTrue(RegexChecker.IsNumberDivisibleByThree("123"));
+        Assert.IsFalse(RegexChecker.IsNumberDivisibleByThree("124"));
+    }
+
+}
