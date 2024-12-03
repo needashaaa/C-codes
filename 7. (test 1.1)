@@ -1,0 +1,25 @@
+using NUnit.Framework;
+using System;
+using System.IO;
+
+[TestFixture]
+public class PrimeNumbersTests
+{
+    [Test]
+    public void TestPrintPrimesLessThan10()
+    {
+        int n = 10;
+
+        string expectedOutput = "2\n3\n5\n7\n";
+
+        StringWriter stringWriter = new StringWriter();
+
+        Console.SetOut(stringWriter);
+
+        PrimeNumbers.PrintPrimesLessThanN(n);
+
+        string actualOutput = stringWriter.ToString();
+
+        Assert.AreEqual(expectedOutput, actualOutput);
+    }
+}
