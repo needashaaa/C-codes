@@ -1,4 +1,6 @@
 using NUnit.Framework;
+using System;
+using System.Text.RegularExpressions;
 
 [TestFixture]
 public class RegexCheckerTests
@@ -52,8 +54,6 @@ public class RegexCheckerTests
         Assert.IsTrue(RegexChecker.FirstDigitDoesNotRepeat("123"));
         Assert.IsFalse(RegexChecker.FirstDigitDoesNotRepeat("121"));
     }
-    
-{
     [Test]
     public void TestIsSignedDecimalInteger()
     {
@@ -114,5 +114,4 @@ public class RegexCheckerTests
         Assert.IsTrue(RegexChecker.IsNumberDivisibleByThree("123"));
         Assert.IsFalse(RegexChecker.IsNumberDivisibleByThree("124"));
     }
-
 }
