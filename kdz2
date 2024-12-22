@@ -12,9 +12,20 @@ class TicTacToe
 
     // Текущий игрок (по умолчанию X начинает игру)
     static char currentPlayer = 'X';
+    static bool isPlayerVsComputer = false; // Флаг режима игрок-компьютер
 
     static void Main()
     {
+        Console.WriteLine("Выберите режим игры:");
+        Console.WriteLine("1. Игрок против игрока");
+        Console.WriteLine("2. Игрок против компьютера");
+
+        string choice = Console.ReadLine();
+        if (choice == "2")
+        {
+            isPlayerVsComputer = true;
+        }
+
         int moves = 0; // Счётчик ходов
         bool gameRunning = true; // Указывает, идёт ли игра
 
@@ -24,45 +35,29 @@ class TicTacToe
             Console.Clear(); // Очищаем экран для обновления поля
             PrintBoard(); // Показываем текущее состояние поля
 
-            Console.WriteLine($"Игрок {currentPlayer}, ваш ход! (Введите номер клетки от 1 до 9):");
-            string input = Console.ReadLine(); // Читаем ввод игрока
-
-            // Проверяем корректность ввода
-            if (int.TryParse(input, out int position) && position >= 1 && position <= 9)
+            if (isPlayerVsComputer && currentPlayer == 'O')
             {
-                int row = (position - 1) / 3; // Вычисляем строку
-                int col = (position - 1) % 3; // Вычисляем столбец
-
-                // Проверяем, свободна ли клетка
-                if (board[row, col] != 'X' && board[row, col] != 'O')
-                {
-                    board[row, col] = currentPlayer; // Заполняем клетку символом игрока
-                    moves++; // Увеличиваем счётчик ходов
-
-                    // Проверяем победу
-                    if (CheckWin())
-                    {
-                        Console.Clear();
-                        PrintBoard();
-                        Console.WriteLine($"Игрок {currentPlayer} победил!");
-                        gameRunning = false; // Завершаем игру
-                    }
-                    else
-                    {
-                        // Меняем игрока
-                        currentPlayer = currentPlayer == 'X' ? 'O' : 'X';
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Эта клетка уже занята. Нажмите Enter и попробуйте снова.");
-                    Console.ReadLine();
-                }
+                ComputerMove();
             }
             else
             {
-                Console.WriteLine("Неправильный ввод. Нажмите Enter и попробуйте снова.");
-                Console.ReadLine();
+                PlayerMove();
+            }
+
+            moves++; // Увеличиваем счётчик ходов
+
+            // Проверяем победу
+            if (CheckWin())
+            {
+                Console.Clear();
+                PrintBoard();
+                Console.WriteLine($"Игрок {currentPlayer} победил!");
+                gameRunning = false; // Завершаем игру
+            }
+            else
+            {
+                // Меняем игрока
+                currentPlayer = currentPlayer == 'X' ? 'O' : 'X';
             }
         }
 
@@ -72,6 +67,57 @@ class TicTacToe
             Console.Clear();
             PrintBoard();
             Console.WriteLine("Ничья!");
+        }
+    }
+
+    // Метод для хода игрока
+    static void PlayerMove()
+    {
+        Console.WriteLine($"Игрок {currentPlayer}, ваш ход! (Введите номер клетки от 1 до 9):");
+        string input = Console.ReadLine(); // Читаем ввод игрока
+
+        // Проверяем корректность ввода
+        if (int.TryParse(input, out int position) && position >= 1 && position <= 9)
+        {
+            int row = (position - 1) / 3; // Вычисляем строку
+            int col = (position - 1) % 3; // Вычисляем столбец
+
+            // Проверяем, свободна ли клетка
+            if (board[row, col] != 'X' && board[row, col] != 'O')
+            {
+                board[row, col] = currentPlayer; // Заполняем клетку символом игрока
+            }
+            else
+            {
+                Console.WriteLine("Эта клетка уже занята. Нажмите Enter и попробуйте снова.");
+                Console.ReadLine();
+                PlayerMove(); // Рекурсивный вызов для повторения хода
+            }
+        }
+        else
+        {
+            Console.WriteLine("Неправильный ввод. Нажмите Enter и попробуйте снова.");
+            Console.ReadLine();
+            PlayerMove(); // Рекурсивный вызов для повторения хода
+        }
+    }
+
+    // Метод для хода компьютера
+    static void ComputerMove()
+    {
+        Console.WriteLine("Ход компьютера...");
+        System.Threading.Thread.Sleep(1000); // Задержка для имитации раздумий компьютера
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (board[i, j] != 'X' && board[i, j] != 'O')
+                {
+                    board[i, j] = currentPlayer; // Компьютер делает первый доступный ход
+                    return;
+                }
+            }
         }
     }
 
